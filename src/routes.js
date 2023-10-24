@@ -1,18 +1,26 @@
 const {
-  createStudentHandler,
-  getStudentHandler,
-  deleteStudentHandler,
-  getAllHandler,
-  updateStudentHandler,
-} = require("./controllers/student.controller");
+  getAllFilesHandler,
+  getFileHandler,
+  deleteFileHandler,
+  updateFileHandler,
+  creates3handler,
+  deletes3handler,
+  gets3handler,
+} = require("./controllers/s3.controller");
+const multer = require("multer");
 
+const upload = multer();
 function routes(app) {
   app.get("/", getHandler);
-  app.post("/create", createStudentHandler);
-  app.post("/update", updateStudentHandler);
-  app.get("/getId", getStudentHandler);
-  app.get("/getAll", getAllHandler);
-  app.delete("/delete", deleteStudentHandler);
+
+  app.post("/addItem", upload.single("file"), creates3handler);
+  app.delete("/deleteItem", deletes3handler);
+  app.get("/getItem", gets3handler);
+
+  app.post("/update", updateFileHandler);
+  app.get("/getId", getFileHandler);
+  app.get("/getAll", getAllFilesHandler);
+  app.delete("/delete", deleteFileHandler);
 }
 
 function getHandler(req, res) {
